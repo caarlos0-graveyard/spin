@@ -7,30 +7,36 @@ import (
 	tj "github.com/tj/go-spin"
 )
 
-type Spin struct {
+const CLEAR_LINE = "\r\033[K"
+
+// Spinner main type
+type Spinner struct {
 	spin   *tj.Spinner
 	text   string
 	active bool
 }
 
-func New(frames, text string) *Spin {
+// New Spinner with args
+func New(frames, text string) *Spinner {
 	spin := tj.New()
 	spin.Set(frames)
-	return &Spin{
+	return &Spinner{
 		spin: spin,
-		text: text,
+		text: CLEAR_LINE + text,
 	}
 }
 
-func (s *Spin) Work(task func() error) error {
+// Work shows the spinner, execute the given task and then hide the spinner
+func (s *Spinner) Work(task func() error) error {
+	s.active = true
 	go func() {
 		for s.active {
-			fmt.Printf("\r %s %s", s.text, s.spin.Next())
+			fmt.Printf(s.text, s.spin.Next())
 			time.Sleep(100 * time.Millisecond)
 		}
 	}()
 	err := task()
 	s.active = false
-	fmt.Printf("\r")
+	fmt.Printf(CLEAR_LINE)
 	return err
 }

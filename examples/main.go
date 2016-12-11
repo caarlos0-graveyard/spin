@@ -1,8 +1,3 @@
-# spin-ext
-
-Example:
-
-```go
 package main
 
 import (
@@ -20,4 +15,3 @@ func main() {
 	})
 	fmt.Println("Done!")
 }
-```
