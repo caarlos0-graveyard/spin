@@ -1,5 +1,7 @@
 # spin-ext
 
+A very simple spinner for cli golang apps.
+
 Example:
 
 ```go
@@ -9,15 +11,13 @@ import (
 	"fmt"
 	"time"
 
-	spin "github.com/caarlos0/spin-ext"
+	"github.com/caarlos0/spin"
 )
 
 func main() {
-	spin := spin.New(`⦾⦿`, "%s Working...")
-	spin.Work(func() error {
-		time.Sleep(1000 * time.Millisecond)
-		return nil
-	})
-	fmt.Println("Done!")
+	s := spin.New("%s Working...")
+	s.Start()
+	time.Sleep(100 * 20 * time.Millisecond)
+	s.Stop()
 }
 ```

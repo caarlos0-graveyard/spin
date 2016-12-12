@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	spin "github.com/caarlos0/spin-ext"
+	"github.com/caarlos0/spin"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 func show(name, frames string) {
 	s := spin.New("  \033[36m[" + name + "] computing\033[m %s")
 	s.Set(frames)
-	s.Work(func() {
-		time.Sleep(100 * 10 * time.Millisecond)
-	})
+	s.Start()
+	time.Sleep(100 * 20 * time.Millisecond)
+	s.Stop()
 }

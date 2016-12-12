@@ -54,8 +54,8 @@ func (s *Spinner) Set(frames string) {
 	s.length = len(s.frames)
 }
 
-// Work shows the spinner, execute the given task and then hide the spinner
-func (s *Spinner) Work(task func()) {
+// Start shows the spinner
+func (s *Spinner) Start() {
 	s.active = true
 	go func() {
 		for s.active {
@@ -63,7 +63,10 @@ func (s *Spinner) Work(task func()) {
 			time.Sleep(100 * time.Millisecond)
 		}
 	}()
-	task()
+}
+
+// Stop hides the spinner
+func (s *Spinner) Stop() {
 	s.active = false
 	fmt.Printf(ClearLine)
 }
