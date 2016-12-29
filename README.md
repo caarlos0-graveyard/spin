@@ -21,3 +21,5 @@ func main() {
 	s.Stop()
 }
 ```
+
+[![asciicast](https://asciinema.org/a/97581.png)](https://asciinema.org/a/97581)
