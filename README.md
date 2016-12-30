@@ -1,4 +1,4 @@
-# spin-ext
+# spin
 
 A very simple spinner for cli golang apps.
 
