@@ -1,7 +1,7 @@
 language: go
 go: 1.8
 script:
-  - go test -v -cover
+  - go test -v -cover -covermode=count -coverprofile=coverage.out
 after_success:
   - go get github.com/mattn/goveralls
   - goveralls -coverprofile=coverage.out -service=travis-ci -repotoken="$COVERALLS_TOKEN"
