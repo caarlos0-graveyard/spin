@@ -1,3 +1,4 @@
+// Package spin provides a very simple spinner for cli applications.
 package spin
 
 import (
