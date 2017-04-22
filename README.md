@@ -8,7 +8,6 @@ A very simple spinner for cli golang apps.
 [![Coverage Status](https://img.shields.io/codecov/c/github/caarlos0/spin/master.svg?style=flat-square)](https://codecov.io/gh/caarlos0/spin)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/caarlos0/spin)
 [![Go Report Card](https://goreportcard.com/badge/github.com/caarlos0/spin?style=flat-square)](https://goreportcard.com/report/github.com/caarlos0/spin)
-[![](https://godoc.org/github.com/caarlos0/spin?status.svg&style=flat-square)](http://godoc.org/github.com/caarlos0/spin)
 [![SayThanks.io](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/caarlos0)
 
 Example usage:
