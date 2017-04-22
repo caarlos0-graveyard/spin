@@ -3,6 +3,7 @@ package spin
 
 import (
 	"fmt"
+	"sync/atomic"
 	"time"
 )
 
@@ -34,9 +35,8 @@ var (
 // Spinner main type
 type Spinner struct {
 	frames []rune
-	length int
 	pos    int
-	active bool
+	active uint64
 	text   string
 }
 
@@ -52,28 +52,33 @@ func New(text string) *Spinner {
 // Set frames to the given string which must not use spaces.
 func (s *Spinner) Set(frames string) {
 	s.frames = []rune(frames)
-	s.length = len(s.frames)
 }
 
-// Start shows the spinner
+// Start shows the spinner.
 func (s *Spinner) Start() {
-	s.active = true
+	if atomic.LoadUint64(&s.active) > 0 {
+		return
+	}
+	atomic.StoreUint64(&s.active, 1)
 	go func() {
-		for s.active {
+		for atomic.LoadUint64(&s.active) > 0 {
 			fmt.Printf(s.text, s.next())
 			time.Sleep(100 * time.Millisecond)
 		}
 	}()
 }
 
-// Stop hides the spinner
-func (s *Spinner) Stop() {
-	s.active = false
-	fmt.Printf(ClearLine)
+// Stop hides the spinner.
+func (s *Spinner) Stop() bool {
+	if x := atomic.SwapUint64(&s.active, 0); x > 0 {
+		fmt.Printf(ClearLine)
+		return true
+	}
+	return false
 }
 
 func (s *Spinner) next() string {
-	r := s.frames[s.pos%s.length]
+	r := s.frames[s.pos%len(s.frames)]
 	s.pos++
 	return string(r)
 }
