@@ -25,9 +25,9 @@ import (
 func main() {
 	s := spin.New("%s Working...")
 	s.Start()
-  defer s.Stop()
+	defer s.Stop()
 	time.Sleep(100 * 20 * time.Millisecond)
 }
 ```
 
-[![asciicast](https://asciinema.org/a/97581.png)](https://asciinema.org/a/97581)
+[![asciicast](https://asciinema.org/a/as4awxfj3zhlr8be6938pe21l.png)](https://asciinema.org/a/as4awxfj3zhlr8be6938pe21l)
