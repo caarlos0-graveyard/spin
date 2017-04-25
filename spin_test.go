@@ -41,5 +41,5 @@ func show(name, frames string) {
 	s.Set(frames)
 	s.Start()
 	defer s.Stop()
-	time.Sleep(1000 * time.Millisecond)
+	time.Sleep(2 * time.Second)
 }
