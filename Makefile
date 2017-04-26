@@ -7,7 +7,7 @@ setup: ## Install all the build and lint dependencies
 	gometalinter --install
 
 test: ## Run all the tests
-	go test $(TEST_OPTIONS) -covermode=atomic -coverprofile=coverage.txt $(SOURCE_FILES) -run $(TEST_PATTERN) -timeout=30s
+	go test $(TEST_OPTIONS) -covermode=atomic -coverprofile=coverage.txt $(SOURCE_FILES) -run $(TEST_PATTERN) -timeout=5m
 
 cover: test ## Run all the tests and opens the coverage report
 	go tool cover -html=coverage.txt
