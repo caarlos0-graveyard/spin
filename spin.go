@@ -55,9 +55,9 @@ func (s *Spinner) Set(frames string) {
 }
 
 // Start shows the spinner.
-func (s *Spinner) Start() {
+func (s *Spinner) Start() *Spinner {
 	if atomic.LoadUint64(&s.active) > 0 {
-		return
+		return s
 	}
 	atomic.StoreUint64(&s.active, 1)
 	go func() {
@@ -66,6 +66,7 @@ func (s *Spinner) Start() {
 			time.Sleep(100 * time.Millisecond)
 		}
 	}()
+	return s
 }
 
 // Stop hides the spinner.
