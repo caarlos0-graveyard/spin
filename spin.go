@@ -46,6 +46,8 @@ type Spinner struct {
 	tpf    time.Duration
 }
 
+// Option describes an option to override a default
+// when creating a new Spinner.
 type Option func(s *Spinner)
 
 // New creates a Spinner object with the provided
