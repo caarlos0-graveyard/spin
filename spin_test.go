@@ -25,6 +25,11 @@ var spins = map[string]string{
 	"Spin8":   spin.Spin8,
 	"Spin9":   spin.Spin9,
 	"Spin10":  spin.Spin10,
+	"Spin11":  spin.Spin11,
+	"Spin12":  spin.Spin12,
+	"Spin13":  spin.Spin13,
+	"Spin14":  spin.Spin14,
+	"Spin15":  spin.Spin15,
 	"Default": spin.Default,
 }
 
@@ -37,8 +42,7 @@ func TestSpin(t *testing.T) {
 }
 
 func show(name, frames string) {
-	s := spin.New("  \033[36m[" + name + "] Testing\033[m %s")
-	s.Set(frames)
+	s := spin.New("  \033[36m["+name+"] Testing\033[m %s", spin.WithFrames(frames))
 	s.Start()
 	defer s.Stop()
 	time.Sleep(2 * time.Second)

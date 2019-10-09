@@ -29,6 +29,11 @@ var (
 	Spin8   = `■□▪▫`
 	Spin9   = `←↑→↓`
 	Spin10  = `⦾⦿`
+	Spin11  = `⌜⌝⌟⌞`
+	Spin12  = `┤┘┴└├┌┬┐`
+	Spin13  = `⇑⇗⇒⇘⇓⇙⇐⇖`
+	Spin14  = `☰☱☳☷☶☴`
+	Spin15  = `䷀䷪䷡䷊䷒䷗䷁䷖䷓䷋䷠䷫`
 	Default = Box1
 )
 
@@ -38,15 +43,43 @@ type Spinner struct {
 	pos    int
 	active uint64
 	text   string
+	tpf    time.Duration
 }
 
-// New Spinner with args
-func New(text string) *Spinner {
+// Option describes an option to override a default
+// when creating a new Spinner.
+type Option func(s *Spinner)
+
+// New creates a Spinner object with the provided
+// text. By default, the Default spinner frames are
+// used, and new frames are rendered every 100 milliseconds.
+// Options can be provided to override these default
+// settings.
+func New(text string, opts ...Option) *Spinner {
 	s := &Spinner{
-		text: ClearLine + text,
+		text:   ClearLine + text,
+		frames: []rune(Default),
+		tpf:    100 * time.Millisecond,
 	}
-	s.Set(Default)
+	for _, o := range opts {
+		o(s)
+	}
 	return s
+}
+
+// WithFrames sets the frames string.
+func WithFrames(frames string) Option {
+	return func(s *Spinner) {
+		s.Set(frames)
+	}
+}
+
+// WithTimePerFrame sets how long each frame shall
+// be shown.
+func WithTimePerFrame(d time.Duration) Option {
+	return func(s *Spinner) {
+		s.tpf = d
+	}
 }
 
 // Set frames to the given string which must not use spaces.
@@ -63,7 +96,7 @@ func (s *Spinner) Start() *Spinner {
 	go func() {
 		for atomic.LoadUint64(&s.active) > 0 {
 			fmt.Printf(s.text, s.next())
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(s.tpf)
 		}
 	}()
 	return s
