@@ -42,8 +42,7 @@ func TestSpin(t *testing.T) {
 }
 
 func show(name, frames string) {
-	s := spin.New("  \033[36m[" + name + "] Testing\033[m %s")
-	s.Set(frames)
+	s := spin.New("  \033[36m["+name+"] Testing\033[m %s", spin.WithFrames(frames))
 	s.Start()
 	defer s.Stop()
 	time.Sleep(2 * time.Second)
