@@ -3,6 +3,8 @@ package spin
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"sync/atomic"
 	"time"
 )
@@ -44,6 +46,7 @@ type Spinner struct {
 	active uint64
 	text   string
 	tpf    time.Duration
+	writer io.Writer
 }
 
 // Option describes an option to override a default
@@ -60,6 +63,7 @@ func New(text string, opts ...Option) *Spinner {
 		text:   ClearLine + text,
 		frames: []rune(Default),
 		tpf:    100 * time.Millisecond,
+		writer: os.Stdout,
 	}
 	for _, o := range opts {
 		o(s)
@@ -82,6 +86,13 @@ func WithTimePerFrame(d time.Duration) Option {
 	}
 }
 
+// WithWriter sets the writer to use for spinner's text.
+func WithWriter(w io.Writer) Option {
+	return func(s *Spinner) {
+		s.writer = w
+	}
+}
+
 // Set frames to the given string which must not use spaces.
 func (s *Spinner) Set(frames string) {
 	s.frames = []rune(frames)
@@ -95,7 +106,7 @@ func (s *Spinner) Start() *Spinner {
 	atomic.StoreUint64(&s.active, 1)
 	go func() {
 		for atomic.LoadUint64(&s.active) > 0 {
-			fmt.Printf(s.text, s.next())
+			fmt.Fprintf(s.writer, s.text, s.next())
 			time.Sleep(s.tpf)
 		}
 	}()
@@ -105,7 +116,7 @@ func (s *Spinner) Start() *Spinner {
 // Stop hides the spinner.
 func (s *Spinner) Stop() bool {
 	if x := atomic.SwapUint64(&s.active, 0); x > 0 {
-		fmt.Printf(ClearLine)
+		fmt.Fprintf(s.writer, ClearLine)
 		return true
 	}
 	return false
