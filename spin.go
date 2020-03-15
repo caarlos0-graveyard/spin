@@ -101,7 +101,7 @@ func (s *Spinner) Set(frames string) {
 // SetText can change the text passed by during New() method
 // in between the animation
 func (s *Spinner) SetText(text string) {
-	s.text = text
+	s.text = ClearLine + text
 }
 
 // Start shows the spinner.
