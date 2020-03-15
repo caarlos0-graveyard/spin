@@ -98,6 +98,12 @@ func (s *Spinner) Set(frames string) {
 	s.frames = []rune(frames)
 }
 
+// SetText can change the text passed by during New() method
+// in between the animation
+func (s *Spinner) SetText(text string) {
+	s.text = text
+}
+
 // Start shows the spinner.
 func (s *Spinner) Start() *Spinner {
 	if atomic.LoadUint64(&s.active) > 0 {
